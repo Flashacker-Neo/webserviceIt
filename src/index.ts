@@ -1,16 +1,23 @@
 import express, { Response, Request } from "express";
 import { AuthorManager } from "./managers/authorManager";
 import { BookManager } from "./managers/bookManager";
+import { CartManager } from "./managers/cartManager";
 
-// Define book api server
+// Define data api server
 const dataApi = express();
 const portDataApi = 8080; // default port to listen
 dataApi.use(express.urlencoded({ extended: true }));
+
+// Define cart api server
+const cartApi = express();
+const portCartApi = 4040; // default port to listen
+cartApi.use(express.urlencoded({ extended: true }));
 
 
 // Init Manager
 const bookManager: BookManager = BookManager.getInstance();
 const authorManager: AuthorManager = AuthorManager.getInstance();
+const cartManager: CartManager = CartManager.getInstance();
 
 
 // Define Book routes
@@ -71,4 +78,8 @@ dataApi.post('/author/update/:id', ( req: Request, res: Response ) => {
 // start the Express server
 dataApi.listen( portDataApi, () => {
     console.log( `Server Book started at http://localhost:${ portDataApi }` );
+});
+
+cartApi.listen( portCartApi, () => {
+    console.log( `Server Book started at http://localhost:${ portCartApi }` );
 });
