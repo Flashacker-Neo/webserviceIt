@@ -11,23 +11,23 @@ export class BookManager {
         return this.instance;
     }
 
-    constructor() { }
+    private constructor() { }
 
     public findById(id: number) {
-        return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})); 
+        return this.books.filter((book) => {if (book.getId() == id) return 1;})[0]; 
     }
 
     public findByName(name: string) {
-        return JSON.stringify(this.books.filter((book) => {if (book.getName() == name) return 1;})); 
+        return this.books.filter((book) => {if (book.getName() == name) return 1;}); 
     }
 
     public findAll() {
-        return JSON.stringify(this.books);
+        return this.books;
     }
 
     public updateOne(id: number, data: any) {
-        return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})[0]
-            .update(data.name, data.author, data.date,  parseInt(data.price),  parseInt(data.quantity)));
+        return this.books.filter((book) => {if (book.getId() == id) return 1;})[0]
+            .update(data.name, data.authorId, data.date,  parseInt(data.price),  parseInt(data.quantity));
     }
 
     public deleteById(id: number) {
@@ -42,10 +42,10 @@ export class BookManager {
         const book: Book = new Book(data.name, data.author, data.date,  parseInt(data.price),  parseInt(data.quantity));
         this.books.push(book);
 
-        return JSON.stringify(book);
+        return book;
     }
 
     public updateStock(id: number, data: any) {
-        return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})[0].updateQuantity(data.type,  parseInt(data.quantity)));
+        return this.books.filter((book) => {if (book.getId() == id) return 1;})[0].updateQuantity(data.type,  parseInt(data.quantity));
     }
 }

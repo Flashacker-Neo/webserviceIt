@@ -15,15 +15,15 @@ const authorManager: AuthorManager = AuthorManager.getInstance();
 
 // Define Book routes
 dataApi.get( "/book", ( req: Request, res: Response ) => {
-    res.send(bookManager.findAll());
+    res.send(JSON.stringify(bookManager.findAll()));
 });
 
 dataApi.get( "/book/:id", ( req: Request, res: Response ) => {
-    res.send(bookManager.findById(parseInt(req.params.id)));
+    res.send(JSON.stringify(bookManager.findById(parseInt(req.params.id))));
 });
 
 dataApi.get( "/book/:name", ( req: Request, res: Response ) => {
-    res.send(bookManager.findByName(req.params.name));
+    res.send(JSON.stringify(bookManager.findByName(req.params.name)));
 });
 
 dataApi.delete("/book/:id", ( req: Request, res: Response ) => {
@@ -32,16 +32,16 @@ dataApi.delete("/book/:id", ( req: Request, res: Response ) => {
 
 dataApi.post('/book/new', ( req: Request, res: Response ) => {
     console.log(req.body);
-    res.send(bookManager.createOne(req.body));
+    res.send(JSON.stringify(bookManager.createOne(req.body)));
 });
 
 dataApi.post('/book/update/:id', ( req: Request, res: Response ) => {
     console.log(req.body);
-    res.send(bookManager.updateOne(parseInt(req.params.id), req.body));
+    res.send(JSON.stringify(bookManager.updateOne(parseInt(req.params.id), req.body)));
 });
 
 dataApi.post('/book/update-stock/:id', ( req: Request, res: Response ) => {
-    res.send(bookManager.updateStock(parseInt(req.params.id), req.body));
+    res.send(JSON.stringify(bookManager.updateStock(parseInt(req.params.id), req.body)));
 });
 
 // Define Author routes
@@ -54,7 +54,7 @@ dataApi.get( "/author/:id", ( req: Request, res: Response ) => {
 });
 
 dataApi.delete("/author/:id", ( req: Request, res: Response ) => {
-    res.send(JSON.stringify(authorManager.deleteById(parseInt(req.params.id))));
+    res.send(authorManager.deleteById(parseInt(req.params.id)));
 });
 
 dataApi.post('/author/new', ( req: Request, res: Response ) => {

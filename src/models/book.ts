@@ -23,14 +23,21 @@ export class Book {
         this.date = date;
         this.price = price;
         this.quantity = quantity;
+
+        this.author.addBook(this.id);
     }
 
     public update(name?: string, authorId?: number, date?: string, price?: number, quantity?: number): Book {
         this.name = (name != null) ? name : this.name;
-        this.author = (authorId != null) ? AuthorManager.getInstance().findById(authorId) : this.author;
         this.date = (date != null) ? date : this.date;
         this.price = (price != null) ? price :this.price;
         this.quantity = (quantity != null) ? quantity : this.quantity;
+
+        if (authorId && this.author.getId() != authorId) {
+            this.author.removeBook(this.id);
+            this.setAuthor(authorId);
+            this.author.addBook(this.id);
+        }
 
         return this;
     }
