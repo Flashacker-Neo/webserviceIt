@@ -3,12 +3,10 @@ import { Book } from "./book";
 export class BookManager {
     private books: Array<Book> = [];
 
-    constructor() {
-
-    }
+    constructor() { }
 
     public findById(id: number) {
-        return JSON.stringify(this.books.filter((book) => {book.getId() == id})); 
+        return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})); 
     }
 
     public findAll() {
@@ -16,11 +14,12 @@ export class BookManager {
     }
 
     public updateOne(id: number, data: any) {
-        return JSON.stringify(this.books.filter((book) => book.getId() == id)[0].update(data.name, data.author, data.date));
+        return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})[0]
+            .update(data.name, data.author, data.date,  parseInt(data.price),  parseInt(data.quantity)));
     }
 
     public deleteById(id: number) {
-        const book: Book = this.books.filter((book) => book.getId() == id)[0];
+        const book: Book = this.books.filter((book) => {if (book.getId() == id) return 1;})[0];
         const index: number = this.books.indexOf(book);
         this.books.splice(index, 1);
 
@@ -28,9 +27,13 @@ export class BookManager {
     }
 
     public createOne(data: any) {
-        const book: Book = new Book(data.name, data.author, data.date);
+        const book: Book = new Book(data.name, data.author, data.date,  parseInt(data.price),  parseInt(data.quantity));
         this.books.push(book);
 
         return JSON.stringify(book);
+    }
+
+    public updateStock(id: number, data: any) {
+        return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})[0].updateQuantity(data.type,  parseInt(data.quantity)));
     }
 }
