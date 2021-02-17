@@ -1,12 +1,24 @@
-import { Book } from "./book";
+import { Book } from "../models/book";
 
 export class BookManager {
     private books: Array<Book> = [];
+    private static instance: BookManager;
+
+    public static getInstance(): BookManager {
+        if (!this.instance) {
+            this.instance = new BookManager();
+        }
+        return this.instance;
+    }
 
     constructor() { }
 
     public findById(id: number) {
         return JSON.stringify(this.books.filter((book) => {if (book.getId() == id) return 1;})); 
+    }
+
+    public findByName(name: string) {
+        return JSON.stringify(this.books.filter((book) => {if (book.getName() == name) return 1;})); 
     }
 
     public findAll() {
