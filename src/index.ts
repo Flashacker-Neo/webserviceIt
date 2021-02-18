@@ -51,6 +51,7 @@ dataApi.post('/book/update-stock/:id', ( req: Request, res: Response ) => {
     res.send(JSON.stringify(bookManager.updateStock(parseInt(req.params.id), req.body)));
 });
 
+
 // Define Author routes
 dataApi.get( "/author", ( req: Request, res: Response ) => {
     res.send(JSON.stringify(authorManager.findAll()));
@@ -75,11 +76,40 @@ dataApi.post('/author/update/:id', ( req: Request, res: Response ) => {
 });
 
 
+// Define Cart routes
+cartApi.get('/cart', ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(cartManager.findAll()));
+});
+
+cartApi.get('/cart/:id', ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(cartManager.findById(parseInt(req.params.id))));
+});
+
+cartApi.delete('/cart/:id', ( req: Request, res: Response ) => {
+    res.send(cartManager.deleteById(parseInt(req.params.id)));
+});
+
+cartApi.post('/cart/new', ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(cartManager.createOne(req.body)));
+});
+
+cartApi.post('/cart/:id/addBook', ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(cartManager.addBook(parseInt(req.params.id), req.body)));
+});
+
+cartApi.post('/cart/:id/removeBook', ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(cartManager.removeBook(parseInt(req.params.id), req.body)));
+});
+
+cartApi.get('/cart/:id/confirmCart', ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(cartManager.confirmCart(parseInt(req.params.id))));
+});
+
 // start the Express server
 dataApi.listen( portDataApi, () => {
-    console.log( `Server Book started at http://localhost:${ portDataApi }` );
+    console.log( `Server Data started at http://localhost:${ portDataApi }` );
 });
 
 cartApi.listen( portCartApi, () => {
-    console.log( `Server Book started at http://localhost:${ portCartApi }` );
+    console.log( `Server Cart started at http://localhost:${ portCartApi }` );
 });

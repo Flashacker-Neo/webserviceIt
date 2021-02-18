@@ -21,11 +21,6 @@ export class CartManager {
         return this.carts;
     }
 
-    public updateOne(id: number, data: any) {
-        return this.carts.filter((cart) => {if (cart.getId() == id) return 1;})[0]
-            .update();
-    }
-
     public deleteById(id: number) {
         const cart: Cart = this.carts.filter((cart) => {if (cart.getId() == id) return 1;})[0];
         const index: number = this.carts.indexOf(cart);
@@ -39,6 +34,24 @@ export class CartManager {
         this.carts.push(cart);
 
         return cart;
+    }
+
+    public addBook(cartId: number, data: any) {
+        const cart: Cart = this.carts.filter((cart) => {if (cart.getId() == cartId) return 1;})[0];
+        
+        return cart.addBook(parseInt(data.bookId), parseInt(data.quantity));
+    }
+
+    public removeBook(cartId: number, data: any) {
+        const cart: Cart = this.carts.filter((cart) => {if (cart.getId() == cartId) return 1;})[0];
+
+        return cart.removeBook(parseInt(data.bookId), parseInt(data.quantity));
+    }
+
+    public confirmCart(cartId: number) {
+        const cart: Cart = this.carts.filter((cart) => {if (cart.getId() == cartId) return 1;})[0];
+       
+        return cart.confirmCart();
     }
 
 }
