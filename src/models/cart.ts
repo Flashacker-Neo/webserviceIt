@@ -1,3 +1,5 @@
+import { CartManager } from "../managers/cartManager";
+
 const axios = require('axios');
 
 export class Cart {
@@ -49,17 +51,28 @@ export class Cart {
         return this;
     }
 
-    public confirmCart() {
+    public async confirmCart() {
         if (this.items.length > 0) {
+            let canConfirm: boolean;
+            const toSend: Array<any> = [];
 
             this.items.forEach(async (item) => {
-                await axios.post('http://localhost:8080/book/update-stock/' + item.id, {type: 'remove', quantity: item.quantity});
+                toSend.push({bookId: item.id, type: 'remove', quantity: item.quantity});
             });
 
-            this.isConfirm = true;
-            this.confirmDate = new Date().toDateString();
+            await CartManager.getInstance().sendMsgToBookManager(JSON.stringify(toSend)).then((response) => {
+                const r = JSON.parse(response);
+                canConfirm = r.status;
+            });
 
-            return this;
+            if (canConfirm) {
+                this.isConfirm = true;
+                this.confirmDate = new Date().toDateString();
+
+                return this;
+            }
+            
+            return {error: 'Can\'t confirm cart, stock to low...'};
         }
     }
 

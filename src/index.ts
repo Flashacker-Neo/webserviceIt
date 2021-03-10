@@ -29,7 +29,7 @@ dataApi.get( "/book/:id", ( req: Request, res: Response ) => {
     res.send(JSON.stringify(bookManager.findById(parseInt(req.params.id))));
 });
 
-dataApi.get( "/book/:name", ( req: Request, res: Response ) => {
+dataApi.get( "/book/name/:name", ( req: Request, res: Response ) => {
     res.send(JSON.stringify(bookManager.findByName(req.params.name)));
 });
 
@@ -38,12 +38,10 @@ dataApi.delete("/book/:id", ( req: Request, res: Response ) => {
 });
 
 dataApi.post('/book/new', ( req: Request, res: Response ) => {
-    console.log(req.body);
     res.send(JSON.stringify(bookManager.createOne(req.body)));
 });
 
 dataApi.post('/book/update/:id', ( req: Request, res: Response ) => {
-    console.log(req.body);
     res.send(JSON.stringify(bookManager.updateOne(parseInt(req.params.id), req.body)));
 });
 
@@ -66,12 +64,10 @@ dataApi.delete("/author/:id", ( req: Request, res: Response ) => {
 });
 
 dataApi.post('/author/new', ( req: Request, res: Response ) => {
-    console.log(req.body);
     res.send(JSON.stringify(authorManager.createOne(req.body)));
 });
 
 dataApi.post('/author/update/:id', ( req: Request, res: Response ) => {
-    console.log(req.body);
     res.send(JSON.stringify(authorManager.updateOne(parseInt(req.params.id), req.body)));
 });
 
@@ -101,15 +97,15 @@ cartApi.post('/cart/:id/removeBook', ( req: Request, res: Response ) => {
     res.send(JSON.stringify(cartManager.removeBook(parseInt(req.params.id), req.body)));
 });
 
-cartApi.get('/cart/:id/confirmCart', ( req: Request, res: Response ) => {
-    res.send(JSON.stringify(cartManager.confirmCart(parseInt(req.params.id))));
+cartApi.get('/cart/:id/confirmCart', async ( req: Request, res: Response ) => {
+    res.send(JSON.stringify(await cartManager.confirmCart(parseInt(req.params.id))));
 });
 
 // start the Express server
 dataApi.listen( portDataApi, () => {
-    console.log( `Server Data started at http://localhost:${ portDataApi }` );
+    console.log( `[DataServer] Started at http://localhost:${ portDataApi }` );
 });
 
 cartApi.listen( portCartApi, () => {
-    console.log( `Server Cart started at http://localhost:${ portCartApi }` );
+    console.log( `[CartServer] Started at http://localhost:${ portCartApi }` );
 });

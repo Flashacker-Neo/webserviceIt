@@ -22,11 +22,13 @@ export class AuthorManager {
     }
 
     public updateOne(id: number, data: any) {
+        console.log('[AuthorManager] Update author with id:', id);
         this.authors.filter((author) => {if (author.getId() == id) return 1;})[0]
             .update(data.name, data.booksId ? JSON.parse(data.booksId) : null);
     }
 
     public deleteById(id: number) {
+        console.log('[AuthorManager] Delete author with id:', id);
         const author: Author = this.authors.filter((author) => {if (author.getId() == id) return 1;})[0];
         const index: number = this.authors.indexOf(author);
         this.authors.splice(index, 1);
@@ -37,6 +39,8 @@ export class AuthorManager {
     public createOne(data: any) {
         const author: Author = new Author(data.name, data.booksId ? JSON.parse(data.booksId) : null);
         this.authors.push(author);
+
+        console.log('[AuthorManager] Create new author:', JSON.stringify(author));
 
         return author;
     }
